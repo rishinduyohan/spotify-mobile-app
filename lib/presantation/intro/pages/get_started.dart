@@ -43,6 +43,7 @@ class GetStartedPage extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
+                    textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 21),
                   Text(
