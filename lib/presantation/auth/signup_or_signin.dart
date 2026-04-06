@@ -4,6 +4,8 @@ import 'package:spotify/common/widgets/appbar/app_bar.dart';
 import 'package:spotify/core/configs/assets/app_images.dart';
 import 'package:spotify/core/configs/assets/app_vectors.dart';
 import 'package:spotify/core/configs/theme/app_colors.dart';
+import 'package:spotify/presantation/auth/pages/signin.dart';
+import 'package:spotify/presantation/auth/pages/signup.dart';
 
 class SignupOrSigninPage extends StatelessWidget {
   const SignupOrSigninPage({super.key});
@@ -63,7 +65,12 @@ class SignupOrSigninPage extends StatelessWidget {
                     children: [
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const SignupPage()),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primary,
                             minimumSize: const Size.fromHeight(73),
@@ -84,7 +91,12 @@ class SignupOrSigninPage extends StatelessWidget {
                       const SizedBox(width: 20),
                       Expanded(
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const SigninPage()),
+                            );
+                          },
                           style: TextButton.styleFrom(
                             minimumSize: const Size.fromHeight(73),
                             shape: RoundedRectangleBorder(
