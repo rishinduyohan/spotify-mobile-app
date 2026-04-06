@@ -1,11 +1,13 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:spotify/common/widgets/button/basic_button.dart';
 import 'package:spotify/core/configs/assets/app_images.dart';
 import 'package:spotify/core/configs/assets/app_vectors.dart';
 import 'package:spotify/core/configs/theme/app_colors.dart';
+import 'package:spotify/presantation/choose_mode/bloc/theme_cubit.dart';
 
 class ChooseModePage extends StatelessWidget {
   const ChooseModePage({super.key});
@@ -25,33 +27,37 @@ class ChooseModePage extends StatelessWidget {
             ),
           ),
           Container(color: Colors.black.withValues(alpha: 0.250)),
-           Padding(
-             padding: const EdgeInsets.symmetric(
-              vertical: 50, 
-              horizontal: 50
-             ),
-             child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: SvgPicture.asset(AppVectors.spotifyLogo),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 50),
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: SvgPicture.asset(AppVectors.spotifyLogo),
+                ),
+                const Spacer(),
+                Text(
+                  'Choose Mode',
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
                   ),
-                  const Spacer(),
-                  Text(
-                    'Choose Mode',
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                    ),
-                  ),
-                  SizedBox(height: 70),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        children: [
-                          ClipOval(
+                ),
+                SizedBox(height: 70),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            context.read<ThemeCubit>().updateTheme(
+                              ThemeMode.light,
+                            );
+                          },
+
+                          child: ClipOval(
                             child: BackdropFilter(
                               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                               child: Container(
@@ -65,28 +71,36 @@ class ChooseModePage extends StatelessWidget {
                                   AppVectors.sun,
                                   fit: BoxFit.none,
                                   colorFilter: ColorFilter.mode(
-                                    Colors.white, 
-                                    BlendMode.srcIn
+                                    Colors.white,
+                                    BlendMode.srcIn,
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          SizedBox(height: 10),
-                          Text(
-                            'Light Mode',
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: AppColors.grey,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 17, 
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(width: 40),
-                      Column(
-                        children: [
-                          ClipOval(
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Light Mode',
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: AppColors.grey,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 17,
+                              ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(width: 40),
+                    Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            context.read<ThemeCubit>().updateTheme(
+                              ThemeMode.dark,
+                            );
+                          },
+                          child: ClipOval(
                             child: BackdropFilter(
                               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                               child: Container(
@@ -100,36 +114,44 @@ class ChooseModePage extends StatelessWidget {
                                   AppVectors.moon,
                                   fit: BoxFit.none,
                                   colorFilter: ColorFilter.mode(
-                                    Colors.white, 
-                                    BlendMode.srcIn
+                                    Colors.white,
+                                    BlendMode.srcIn,
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          SizedBox(height: 10),
-                          Text(
-                            'Dark Mode',
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: AppColors.grey,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 17, 
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 50),
-                  BasicButton(onPressed: (){
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Dark Mode',
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: AppColors.grey,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 17,
+                              ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 50),
+                BasicButton(
+                  onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const ChooseModePage())
+                      MaterialPageRoute(
+                        builder: (context) => const ChooseModePage(),
+                      ),
                     );
-                  }, title: "Continue", height: 60)
-                ],
-              ),
-           ),
+                  },
+                  title: "Continue",
+                  height: 60,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
