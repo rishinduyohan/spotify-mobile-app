@@ -5,13 +5,14 @@ class AppTheme{
 
   static final lightTheme = ThemeData(
     primaryColor: AppColors.primary,
-    scaffoldBackgroundColor: AppColors.lightbackground,
+    scaffoldBackgroundColor: const Color.fromARGB(255, 243, 242, 242),
     brightness: Brightness.light,
     fontFamily: 'Satoshi',
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primary,
-        textStyle: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+        elevation: 0,
+        textStyle: const TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
         foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
@@ -22,13 +23,14 @@ class AppTheme{
 
   static final darkTheme = ThemeData(
     primaryColor: AppColors.primary,
-    scaffoldBackgroundColor: AppColors.darkbackground,
+    scaffoldBackgroundColor: const Color.fromARGB(255, 6, 6, 6),
     brightness: Brightness.dark,
     fontFamily: 'Satoshi',
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primary,
-        textStyle: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+        elevation: 0,
+        textStyle: const TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
         foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
