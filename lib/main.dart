@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:spotify/service_locator.dart';
 import 'firebase_options.dart';
 import 'package:spotify/core/configs/theme/app_theme.dart';
 import 'package:spotify/presantation/choose_mode/bloc/theme_cubit.dart';
@@ -19,6 +20,7 @@ Future<void> main() async {
         ? HydratedStorageDirectory.web
         : HydratedStorageDirectory((await getApplicationDocumentsDirectory()).path),
   );
+  await initializeDependencies();
   runApp(const MyApp());
 }
 
