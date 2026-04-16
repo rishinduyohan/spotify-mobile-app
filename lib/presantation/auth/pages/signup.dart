@@ -4,10 +4,15 @@ import 'package:spotify/common/widgets/appbar/app_bar.dart';
 import 'package:spotify/core/configs/assets/app_images.dart';
 import 'package:spotify/core/configs/assets/app_vectors.dart';
 import 'package:spotify/core/configs/theme/app_colors.dart';
+import 'package:spotify/data/models/auth/create_user-req.dart';
 import 'package:spotify/presantation/auth/pages/signin.dart';
 
 class SignupPage extends StatelessWidget {
-  const SignupPage({super.key});
+  SignupPage({super.key});
+
+  final TextEditingController name = TextEditingController();
+  final TextEditingController email = TextEditingController();
+  final TextEditingController password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +72,11 @@ class SignupPage extends StatelessWidget {
             _textField(context, 'Password', isDarkMode, isPassword: true),
             const SizedBox(height: 35),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () async{
+                var result = await getIt<SignupUseCase>().call(
+                  params: CreateUserReq(name: name, email: email, password: password)
+                );
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 minimumSize: const Size.fromHeight(70),
