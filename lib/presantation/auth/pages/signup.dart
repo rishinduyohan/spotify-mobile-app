@@ -4,8 +4,10 @@ import 'package:spotify/common/widgets/appbar/app_bar.dart';
 import 'package:spotify/core/configs/assets/app_images.dart';
 import 'package:spotify/core/configs/assets/app_vectors.dart';
 import 'package:spotify/core/configs/theme/app_colors.dart';
-import 'package:spotify/data/models/auth/create_user-req.dart';
+import 'package:spotify/data/models/auth/create-user-req.dart';
 import 'package:spotify/presantation/auth/pages/signin.dart';
+import 'package:spotify/domain/usecases/auth/signup.dart';
+import 'package:spotify/service_locator.dart';
 
 class SignupPage extends StatelessWidget {
   SignupPage({super.key});
@@ -65,16 +67,32 @@ class SignupPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 40),
-            _textField(context, 'Full Name', isDarkMode),
+            _textField(context, 'Full Name', isDarkMode, name),
             const SizedBox(height: 20),
-            _textField(context, 'Enter Email', isDarkMode),
+            _textField(context, 'Enter Email', isDarkMode, email),
             const SizedBox(height: 20),
-            _textField(context, 'Password', isDarkMode, isPassword: true),
+            _textField(context, 'Password', isDarkMode, password, isPassword: true),
             const SizedBox(height: 35),
             ElevatedButton(
               onPressed: () async{
                 var result = await getIt<SignupUseCase>().call(
-                  params: CreateUserReq(name: name, email: email, password: password)
+                  params: CreateUserReq(
+                    name: name.text.toString(), 
+                    email: email.text.toString(), 
+                    password: password.text.toString()
+                  )
+                );
+                result.fold(
+                  (l) {
+                    var snackbar = SnackBar(content: Text(l.toString()));
+                    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                  },
+                  (r) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const SigninPage()),
+                    );
+                  }
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -160,8 +178,9 @@ class SignupPage extends StatelessWidget {
     );
   }
 
-  Widget _textField(BuildContext context, String hint, bool isDarkMode, {bool isPassword = false}) {
+  Widget _textField(BuildContext context, String hint, bool isDarkMode, TextEditingController controller, {bool isPassword = false}) {
     return TextField(
+      controller: controller,
       obscureText: isPassword,
       style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
       decoration: InputDecoration(

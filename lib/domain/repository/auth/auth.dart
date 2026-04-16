@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:spotify/data/models/auth/create_user-req.dart';
+import 'package:spotify/data/models/auth/create-user-req.dart';
 
 abstract class AuthRepository {
   Future<void> login(String email, String password);

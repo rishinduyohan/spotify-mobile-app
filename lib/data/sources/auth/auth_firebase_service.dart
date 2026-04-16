@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:spotify/data/models/auth/create_user-req.dart';
+import 'package:spotify/data/models/auth/create-user-req.dart';
 
 abstract class AuthFirebaseService {
   Stream<User?> authStateChanges();
