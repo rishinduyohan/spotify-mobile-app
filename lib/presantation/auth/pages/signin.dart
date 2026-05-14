@@ -4,10 +4,28 @@ import 'package:spotify/common/widgets/appbar/app_bar.dart';
 import 'package:spotify/core/configs/assets/app_images.dart';
 import 'package:spotify/core/configs/assets/app_vectors.dart';
 import 'package:spotify/core/configs/theme/app_colors.dart';
+import 'package:spotify/data/models/auth/signin-user-req.dart';
+import 'package:spotify/domain/usecases/auth/signin.dart';
 import 'package:spotify/presantation/auth/pages/signup.dart';
+import 'package:spotify/service_locator.dart';
 
-class SigninPage extends StatelessWidget {
+class SigninPage extends StatefulWidget {
   const SigninPage({super.key});
+
+  @override
+  State<SigninPage> createState() => _SigninPageState();
+}
+
+class _SigninPageState extends State<SigninPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +78,9 @@ class SigninPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 40),
-            _textField(context, 'Enter Username Or Email', isDarkMode),
+            _textField(context, 'Enter Username Or Email', _emailController, isDarkMode),
             const SizedBox(height: 20),
-            _textField(context, 'Password', isDarkMode, isPassword: true),
+            _textField(context, 'Password', _passwordController, isDarkMode, isPassword: true),
             const SizedBox(height: 15),
             Align(
               alignment: Alignment.centerLeft,
@@ -79,7 +97,41 @@ class SigninPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                final email = _emailController.text.trim();
+                final password = _passwordController.text.trim();
+
+                if (email.isEmpty || password.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please enter both email and password')),
+                  );
+                  return;
+                }
+
+                final result = await getIt<SigninUseCase>().call(
+                  params: SigninUserReq(
+                    email: email,
+                    password: password,
+                  ),
+                );
+
+                result.fold(
+                  (l) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(l.toString())),
+                    );
+                  },
+                  (r) {
+                    // Navigate to Home Page on success
+                    // TODO: Replace with your actual HomePage route
+                    // Navigator.pushAndRemoveUntil(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => const HomePage()),
+                    //   (route) => false,
+                    // );
+                  },
+                );
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 minimumSize: const Size.fromHeight(70),
@@ -163,8 +215,9 @@ class SigninPage extends StatelessWidget {
     );
   }
 
-  Widget _textField(BuildContext context, String hint, bool isDarkMode, {bool isPassword = false}) {
+  Widget _textField(BuildContext context, String hint, TextEditingController controller, bool isDarkMode, {bool isPassword = false}) {
     return TextField(
+      controller: controller,
       obscureText: isPassword,
       style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
       decoration: InputDecoration(
