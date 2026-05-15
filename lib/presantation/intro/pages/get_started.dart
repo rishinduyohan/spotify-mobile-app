@@ -23,7 +23,7 @@ class GetStartedPage extends StatelessWidget {
               ),
             ),
           ),
-          Container(color: Colors.black.withValues(alpha: 0.250)),
+          Container(color: Colors.black.withOpacity(0.250)),
            Padding(
              padding: const EdgeInsets.symmetric(
               vertical: 50, 

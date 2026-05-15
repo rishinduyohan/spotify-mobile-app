@@ -7,6 +7,7 @@ import 'package:spotify/core/configs/theme/app_colors.dart';
 import 'package:spotify/data/models/auth/create-user-req.dart';
 import 'package:spotify/presantation/auth/pages/signin.dart';
 import 'package:spotify/domain/usecases/auth/signup.dart';
+import 'package:spotify/presantation/home/pages/home.dart';
 import 'package:spotify/service_locator.dart';
 
 class SignupPage extends StatelessWidget {
@@ -75,11 +76,18 @@ class SignupPage extends StatelessWidget {
             const SizedBox(height: 35),
             ElevatedButton(
               onPressed: () async{
+                if (name.text.isEmpty || email.text.isEmpty || password.text.isEmpty) {
+                   ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please fill all fields')),
+                  );
+                  return;
+                }
+
                 var result = await getIt<SignupUseCase>().call(
                   params: CreateUserReq(
-                    name: name.text.toString(), 
-                    email: email.text.toString(), 
-                    password: password.text.toString()
+                    name: name.text.trim(), 
+                    email: email.text.trim(), 
+                    password: password.text.trim()
                   )
                 );
                 result.fold(
@@ -88,9 +96,10 @@ class SignupPage extends StatelessWidget {
                     ScaffoldMessenger.of(context).showSnackBar(snackbar);
                   },
                   (r) {
-                    Navigator.pushReplacement(
+                    Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (context) => const SigninPage()),
+                      MaterialPageRoute(builder: (context) => const HomePage()),
+                      (route) => false
                     );
                   }
                 );
@@ -124,7 +133,7 @@ class SignupPage extends StatelessWidget {
                   child: Text(
                     'Or',
                     style: TextStyle(
-                      color: isDarkMode ? Colors.white.withValues(alpha: 0.5) : Colors.black54,
+                      color: isDarkMode ? Colors.white.withOpacity(0.5) : Colors.black54,
                     ),
                   ),
                 ),
@@ -151,7 +160,7 @@ class SignupPage extends StatelessWidget {
                 Text(
                   'Do You Have An Account? ',
                   style: TextStyle(
-                    color: isDarkMode ? Colors.white.withValues(alpha: 0.7) : Colors.black87,
+                    color: isDarkMode ? Colors.white.withOpacity(0.7) : Colors.black87,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -224,8 +233,8 @@ class SignupPage extends StatelessWidget {
   Widget _socialIcon(IconData icon, bool isDarkMode, {Color? color}) {
     return icon == Icons.g_mobiledata_rounded 
         ? Image.asset(
-           AppImages.googleLogo,
-           height: 30,
+            AppImages.googleLogo,
+            height: 30,
           )
         : Icon(
             icon,

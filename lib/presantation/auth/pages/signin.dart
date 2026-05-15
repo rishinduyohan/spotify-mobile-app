@@ -7,6 +7,7 @@ import 'package:spotify/core/configs/theme/app_colors.dart';
 import 'package:spotify/data/models/auth/signin-user-req.dart';
 import 'package:spotify/domain/usecases/auth/signin.dart';
 import 'package:spotify/presantation/auth/pages/signup.dart';
+import 'package:spotify/presantation/home/pages/home.dart';
 import 'package:spotify/service_locator.dart';
 
 class SigninPage extends StatefulWidget {
@@ -78,7 +79,7 @@ class _SigninPageState extends State<SigninPage> {
               ],
             ),
             const SizedBox(height: 40),
-            _textField(context, 'Enter Username Or Email', _emailController, isDarkMode),
+            _textField(context, 'Enter Email', _emailController, isDarkMode),
             const SizedBox(height: 20),
             _textField(context, 'Password', _passwordController, isDarkMode, isPassword: true),
             const SizedBox(height: 15),
@@ -122,13 +123,11 @@ class _SigninPageState extends State<SigninPage> {
                     );
                   },
                   (r) {
-                    // Navigate to Home Page on success
-                    // TODO: Replace with your actual HomePage route
-                    // Navigator.pushAndRemoveUntil(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => const HomePage()),
-                    //   (route) => false,
-                    // );
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => const HomePage()),
+                      (route) => false,
+                    );
                   },
                 );
               },
@@ -161,7 +160,7 @@ class _SigninPageState extends State<SigninPage> {
                   child: Text(
                     'Or',
                     style: TextStyle(
-                      color: isDarkMode ? Colors.white.withValues(alpha: 0.5) : Colors.black54,
+                      color: isDarkMode ? Colors.white.withOpacity(0.5) : Colors.black54,
                     ),
                   ),
                 ),
@@ -188,7 +187,7 @@ class _SigninPageState extends State<SigninPage> {
                 Text(
                   'Not A Member ? ',
                   style: TextStyle(
-                    color: isDarkMode ? Colors.white.withValues(alpha: 0.7) : Colors.black87,
+                    color: isDarkMode ? Colors.white.withOpacity(0.7) : Colors.black87,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

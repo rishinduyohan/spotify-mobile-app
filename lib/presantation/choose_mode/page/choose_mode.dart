@@ -27,7 +27,7 @@ class ChooseModePage extends StatelessWidget {
               ),
             ),
           ),
-          Container(color: Colors.black.withValues(alpha: 0.250)),
+          Container(color: Colors.black.withOpacity(0.250)),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 50),
             child: Column(
@@ -66,7 +66,7 @@ class ChooseModePage extends StatelessWidget {
                                 width: 80,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: AppColors.grey.withValues(alpha: 0.5),
+                                  color: AppColors.grey.withOpacity(0.5),
                                 ),
                                 child: SvgPicture.asset(
                                   AppVectors.sun,
@@ -109,7 +109,7 @@ class ChooseModePage extends StatelessWidget {
                                 width: 80,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: AppColors.grey.withValues(alpha: 0.5),
+                                  color: AppColors.grey.withOpacity(0.5),
                                 ),
                                 child: SvgPicture.asset(
                                   AppVectors.moon,

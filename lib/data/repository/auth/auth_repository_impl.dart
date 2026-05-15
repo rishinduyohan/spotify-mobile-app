@@ -13,7 +13,7 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<void> logout() async {
-    // Implement logout logic here
+    return await getIt<AuthFirebaseService>().signOut();
   }
 
   @override
@@ -23,13 +23,17 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<bool> isAuthenticated() async {
-    // Implement authentication check logic here
-    return false;
+    return getIt<AuthFirebaseService>().currentUser != null;
   }
 
   @override
   Future<String?> getAccessToken() async {
-    // Implement access token retrieval logic here
+    // Implement if needed
     return null;
+  }
+
+  @override
+  Future<Either> getUser() async {
+    return await getIt<AuthFirebaseService>().getUser();
   }
 }

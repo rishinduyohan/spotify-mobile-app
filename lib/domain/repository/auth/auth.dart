@@ -6,6 +6,7 @@ abstract class AuthRepository {
   Future<void> logout();
   Future<Either> signIn(SigninUserReq signinUserReq);
   Future<Either> signup(CreateUserReq createUserReq);
+  Future<Either> getUser();
   Future<bool> isAuthenticated();
   Future<String?> getAccessToken();
 }

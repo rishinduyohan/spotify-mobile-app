@@ -1,34 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:spotify/core/configs/theme/app_colors.dart';
 
 class BasicAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final Widget? title;
-  const BasicAppBar({super.key, this.title});
-
+  final Widget ? title;
+  final Widget ? action;
+  final Color ? backgroundColor;
+  final bool hideBack;
+  const BasicAppBar({
+    this.title,
+    this.hideBack = false,
+    this.action,
+    this.backgroundColor,
+    super.key
+  });
+  
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    
     return AppBar(
-      backgroundColor: Colors.transparent,
+      backgroundColor: backgroundColor ?? Colors.transparent,
       elevation: 0,
       centerTitle: true,
-      title: title,
-      leading: IconButton(
-        onPressed: () => Navigator.pop(context),
+      title: title ?? const Text(''),
+      actions: [
+        action ?? Container()
+      ],
+      leading: hideBack ? null : IconButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
         icon: Container(
           height: 50,
           width: 50,
           decoration: BoxDecoration(
-            color: isDarkMode 
-                ? Colors.white.withValues(alpha: 0.03) 
-                : Colors.black.withValues(alpha: 0.04),
-            shape: BoxShape.circle,
+            color: Theme.of(context).brightness == Brightness.dark ? Colors.white.withOpacity(0.03) : Colors.black.withOpacity(0.04),
+            shape: BoxShape.circle
           ),
           child: Icon(
-            Icons.arrow_back_ios_new_rounded, 
-            color: isDarkMode ? Colors.white : Colors.black,
-            size: 18,
+            Icons.arrow_back_ios_new_rounded,
+            size: 15,
+            color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
           ),
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spotify/core/configs/theme/app_colors.dart';
 
 class BasicButton extends StatelessWidget {
   final VoidCallback? onPressed;
@@ -13,10 +14,16 @@ class BasicButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed, 
       style: ElevatedButton.styleFrom(
-        minimumSize: height != null ? Size.fromHeight(height ?? 80) : null,
-        backgroundColor: Colors.green
+        minimumSize: Size.fromHeight(height ?? 80),
+        backgroundColor: AppColors.primary
       ), 
-      child: Text(title)
+      child: Text(
+        title,
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold
+        ),
+      )
     );
   }
 }
